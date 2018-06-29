@@ -1,0 +1,8 @@
+version: '3'
+services:
+  iot_server:
+    container_name: iot_server
+    image: iot_server
+    build: ./docker/
+    network_mode: host
+    restart: always
