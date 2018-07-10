@@ -1,10 +1,8 @@
 const express = require('express');
 const http = require('http');
-const socketio = require('socket.io');
 
 const app = express();
 const server = http.Server(app);
-const io = socketio(server);
 
 // Keep track of servo peace state
 let peaceful = false;
@@ -17,6 +15,10 @@ app.get('/', (req, res) => {
   res.send('Hello world<br/>\nPeaceful: ' + peaceful);
 });
 
+app.get('/peace', (req, res) => {
+  res.json({peaceful});
+});
+
 app.post('/peace', (req, res) => {
   if (req.query.peace == 1) {
     peaceful = true;
@@ -27,10 +29,4 @@ app.post('/peace', (req, res) => {
   } else {
     res.sendStatus(404);
   }
-});
-
-io.on('connection', function(socket) {
-  socket.on('servo-peace', function(msg) {
-     console.log('got servo peace', msg);
-  });
 });
